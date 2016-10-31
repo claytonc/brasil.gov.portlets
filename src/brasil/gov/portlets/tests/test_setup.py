@@ -46,7 +46,7 @@ class TestInstall(BaseTestCase):
     def test_version(self):
         self.assertEqual(
             self.st.getLastVersionForProfile(self.profile),
-            (u'1001',)
+            (u'1002',)
         )
 
 
@@ -94,6 +94,10 @@ class TestUpgrade(BaseTestCase):
         step = self.list_upgrades(u'1000', u'1001')
         self.assertEqual(len(step), 1)
 
+    def test_to1002_available(self):
+        step = self.list_upgrades(u'1001', u'1002')
+        self.assertEqual(len(step), 1)
+
     def test_to1001_execution(self):
         self.execute_upgrade(u'1000', u'1001')
 
@@ -115,6 +119,17 @@ class TestUpgrade(BaseTestCase):
         self.assertTrue(
             all([string in addable_portlet_types for string in new_strings])
         )
+
+    def test_to1002_execution(self):
+        self.execute_upgrade(u'1001', u'1002')
+
+        installedScriptIds = self.tool.getResourceIds()
+        expected = [
+             '++resource++brasil.gov.portlets/js/jquery.cycle2.js',
+             '++resource++brasil.gov.portlets/js/jquery.cycle2.carousel.js',
+             '++resource++brasil.gov.portlets/js/jquery.jplayer.min.js']
+        for e in expected:
+            self.assertTrue(e not in installedScriptIds, e)
 
     def test_ultimo_upgrade_igual_metadata_xml_filesystem(self):
         """
