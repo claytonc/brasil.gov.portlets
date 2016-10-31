@@ -6,8 +6,11 @@ from brasil.gov.portlets.testing import FUNCTIONAL_TESTING
 from brasil.gov.portlets.testing import INTEGRATION_TESTING
 from plone.browserlayer.utils import registered_layers
 from plone.portlets.interfaces import IPortletManager
+from Products.CMFCore.utils import getToolByName
 from Products.GenericSetup.upgrade import listUpgradeSteps
+from Products.ResourceRegistries.config import JSTOOLNAME
 from zope.component import getUtility
+
 
 import unittest
 
@@ -123,7 +126,8 @@ class TestUpgrade(BaseTestCase):
     def test_to1002_execution(self):
         self.execute_upgrade(u'1001', u'1002')
 
-        installedScriptIds = self.tool.getResourceIds()
+        jstool = getToolByName(self.portal, JSTOOLNAME)
+        installedScriptIds = jstool.getResourceIds()
         expected = [
              '++resource++brasil.gov.portlets/js/jquery.cycle2.js',
              '++resource++brasil.gov.portlets/js/jquery.cycle2.carousel.js',
