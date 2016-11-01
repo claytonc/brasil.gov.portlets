@@ -14,7 +14,7 @@ class HiddenProducts(object):
         return [
             u'brasil.gov.portlets.upgrades.v1000',
             u'brasil.gov.portlets.upgrades.v1001',
-            u'brasil.gov.portlets.upgrades.v1002'
+            u'brasil.gov.portlets.upgrades.v1002',
         ]
 
 
@@ -27,5 +27,5 @@ class HiddenProfiles(object):
             u'brasil.gov.portlets:testfixture',
             u'brasil.gov.portlets.upgrades.v1000:default',
             u'brasil.gov.portlets.upgrades.v1001:default',
-            u'brasil.gov.portlets.upgrades.v1002:default'
+            u'brasil.gov.portlets.upgrades.v1002:default',
         ]
