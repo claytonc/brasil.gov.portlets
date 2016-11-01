@@ -123,15 +123,20 @@ class TestUpgrade(BaseTestCase):
         )
 
     def test_to1002_execution(self):
-        self.execute_upgrade(u'1001', u'1002')
-
         js_tool = api.portal.get_tool(JSTOOLNAME)
-        installedScriptIds = js_tool.getResourceIds()
-        expected = ['++resource++brasil.gov.portlets/js/jquery.cycle2.js',
-                    '++resource++brasil.gov.portlets/js/jquery.cycle2.carousel.js',
-                    '++resource++brasil.gov.portlets/js/jquery.jplayer.min.js']
-        for e in expected:
-            self.assertTrue(e not in installedScriptIds, e)
+        js_register = ['++resource++brasil.gov.portlets/js/jquery.cycle2.js',
+                       '++resource++brasil.gov.portlets/js/jquery.cycle2.carousel.js',
+                       '++resource++brasil.gov.portlets/js/jquery.jplayer.min.js']
+
+        # simulando a versão 1001
+        for id in js_register:
+            js_tool.registerResource(id)
+            self.assertIn(id, js_tool.getResourceIds())
+
+        # validando a atualização
+        self.execute_upgrade(u'1001', u'1002')
+        for id in js_register:
+            self.assertNotIn(id, js_tool.getResourceIds())
 
     def test_ultimo_upgrade_igual_metadata_xml_filesystem(self):
         """
